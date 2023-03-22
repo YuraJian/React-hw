@@ -1,80 +1,82 @@
 import React from "react";
 import "./App.css";
 
-const HomeComponent = (props) => {
+const HomeComponent = () => {
   return <div>Home Page</div>;
 };
 
-const NewsComponent = (props) => {
+const NewsComponent = () => {
   return <div>News Page</div>;
 };
 
-const CallBackComponent = (props) => {
+const CallBackComponent = () => {
   return <div>CallBack Page</div>;
 };
 
-const ContactsComponent = (props) => {
+const ContactsComponent = () => {
   return <div>Contacts Page</div>;
 };
 
+const links = [
+  {
+    id: "1",
+    title: "Home",
+    name: "home",
+    href: "#",
+  },
+  {
+    id: "2",
+    title: "News",
+    name: "news",
+    href: "#",
+  },
+  {
+    id: "3",
+    title: "CallBack",
+    name: "callback",
+    href: "#",
+  },
+  {
+    id: "4",
+    title: "Contacts",
+    name: "contacts",
+    href: "#",
+  },
+];
+
+const pages = {
+  home: <HomeComponent />,
+  news: <NewsComponent />,
+  callback: <CallBackComponent />,
+  contacts: <ContactsComponent />,
+};
+
 class NavComponent extends React.Component {
-  state = { currentPage: <HomeComponent /> };
+  state = { currentPage: "home" };
 
   render() {
     return (
       <div>
         <nav>
-          <a href="home" onClick={this.handleComponent}>
-            Home
-          </a>
-          <a href="home" onClick={this.handleComponent}>
-            News
-          </a>
-          <a href="home" onClick={this.handleComponent}>
-            CallBack
-          </a>
-          <a href="home" onClick={this.handleComponent}>
-            Contacts
-          </a>
+          {links.map(({ id, title, name, href }) => (
+            <a
+            className="header-link"
+              name={name}
+              href={href}
+              key={id}
+              onClick={() => this.handleComponent(name)}
+            >
+              {title}
+            </a>
+          ))}
         </nav>
-        <div>{this.state.currentPage}</div>
+        <div>{pages[this.state.currentPage]}</div>
       </div>
     );
   }
 
-  handleComponent = (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const targetText = target.innerText;
-
-    switch (targetText) {
-      case "Home":
-        this.setState({
-          currentPage: <HomeComponent />,
-        });
-        console.log(this.state);
-        break;
-      case "News":
-        this.setState({
-          currentPage: <NewsComponent />,
-        });
-        break;
-      case "CallBack":
-        this.setState({
-          currentPage: <CallBackComponent />,
-        });
-        break;
-      case "Contacts":
-        this.setState({
-          currentPage: <ContactsComponent />,
-        });
-        break;
-
-      default:
-        this.setState({
-          currentPage: <HomeComponent />,
-        });
-    }
+  handleComponent = (name) => {
+    this.setState({ currentPage: name });
   };
 }
 
